@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
-  get 'service/agent'
+  resources :voicemails
+  get '/random' => 'voicemail#random', :as => :random_voicemail
+  get '/prompt' => 'voicemail#prompt'
+  post '/router' => 'voicemail#router'
 
   resources :customers
   root 'pages#home'
