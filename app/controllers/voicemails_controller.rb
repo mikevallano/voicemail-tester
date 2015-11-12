@@ -9,7 +9,9 @@ class VoicemailsController < ApplicationController
   def prompt
     response = Twilio::TwiML::Response.new do |r|
       r.Gather action: '/router', timeout: 5, numDigits: 1, finishOnKey: '' do
-        r.Play asset_url('prompt.mp3')
+        r.Say "Yall from Tchopatulas? Press 1 to leave a voicemail pronouncing this street.
+          press 2 to listed to others' pronunciations.", :voice => 'alice'
+        # r.Play asset_url('prompt.mp3')
       end
     end
     render_twiml response
