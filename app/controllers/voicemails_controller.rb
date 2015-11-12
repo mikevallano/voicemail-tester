@@ -4,6 +4,8 @@ class VoicemailsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
 
+  after_action :set_header
+
   # layout 'twilio_xml'
 
   def prompt
@@ -73,6 +75,10 @@ class VoicemailsController < ApplicationController
      r.Redirect(voicemails_path(@random_vm), method: 'GET')
     end
    render_twiml response
+  end
+
+  def set_header
+    response.headers["Content-Type"] = "text/xml"
   end
 
   def render_twiml(response)
