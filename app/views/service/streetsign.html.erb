@@ -16,11 +16,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
   Twilio.Device.setup("<%= @token %>");
 });
 
+var connection=null;
+
 function call() {
-  Twilio.Device.connect({id: "<%= @street.id %>"});
+  connection = Twilio.Device.connect({id: "<%= @street.id %>"});
 }
 
 function hangup() {
-    Twilio.Device.disconnectAll();
+  connection = Twilio.Device.disconnectAll();
 }
 </script>
