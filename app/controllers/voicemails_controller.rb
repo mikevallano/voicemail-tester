@@ -4,7 +4,7 @@ class VoicemailsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
 
-  after_action :set_header
+  # after_action :set_header
 
   # layout 'twilio_xml'
 
