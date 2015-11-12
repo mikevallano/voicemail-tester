@@ -45,7 +45,7 @@ class VoicemailsController < ApplicationController
     end
 
     response = Twilio::TwiML::Response.new do |r|
-      if @vm_saved
+      if @vm_saved.present?
         r.Say 'Message saved.'
         r.Redirect('/prompt', method: 'GET')
       else
@@ -53,6 +53,7 @@ class VoicemailsController < ApplicationController
         r.Redirect(new_voicemail_path, method: 'GET')
       end
     end
+    render_twiml response
   end
 
   def show
