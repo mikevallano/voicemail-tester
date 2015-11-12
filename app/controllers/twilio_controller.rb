@@ -8,8 +8,8 @@ class TwilioController < ApplicationController
 
   def voice
     response = Twilio::TwiML::Response.new do |r|
-      r.Say 'I like zorro. Do you like zorro?', :voice => 'alice'
-         r.Play 'http://linode.rabasa.com/cantina.mp3'
+      r.Say "Zorro is the chup. Do you like zorro? I like zorro, and I'm a robot.
+      You must really love zorro. But alas, the turkey is cold.", :voice => 'alice'
     end
 
     render_twiml response
