@@ -68,7 +68,7 @@ class VoicemailsController < ApplicationController
   end
 
   def random
-    @random_vm = Voicemail.random
+    @random_vm = Voicemail.all.sample
     response = Twilio::TwiML::Response.new do |r|
      r.Redirect(voicemails_path(@random_vm), method: 'GET')
     end
