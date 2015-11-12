@@ -1,11 +1,17 @@
 Rails.application.routes.draw do
 
+  get 'service/agent'
+
+  resources :customers
   root 'pages#home'
 
   get 'pages/about'
 
   post 'twilio/voice' => 'twilio#voice'
+  post 'twilio/connect_customer' => 'twilio#connect_customer'
   post 'notifications/notify' => 'notifications#notify'
+  get 'agent' => 'service#agent'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

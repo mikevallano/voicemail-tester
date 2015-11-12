@@ -23,4 +23,16 @@ class TwilioController < ApplicationController
     render text: response.text
   end
 
+  def connect_customer
+    @customer = Customer.find(params[:id])
+
+    response = Twilio::TwiML::Response.new do |r|
+      r.Say 'Hello. Connecting you to the customer now.', :voice => 'alice'
+      r.Dial :callerId => ENV["twilio_phone_number"] do |d|
+        d.Number @customer.phone_number
+      end
+    end
+    render_twiml response
+  end
+
 end
