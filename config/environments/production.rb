@@ -77,7 +77,8 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/voice'
-  config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/voicemails'
-  config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/random'
+  # config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/voice'
+  # config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/voicemails'
+  # config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/random'
+  use Rack::TwilioWebhookAuthentication, ENV['twilio_auth_token'], '/voice', '/voicemails', '/random'
 end
