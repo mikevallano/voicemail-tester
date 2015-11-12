@@ -4,10 +4,6 @@ class VoicemailsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
 
-  # after_action :set_header
-
-  # layout 'twilio_xml'
-
   def prompt
     response = Twilio::TwiML::Response.new do |r|
       r.Gather action: '/router', timeout: 5, numDigits: 1, finishOnKey: '' do
@@ -74,14 +70,10 @@ class VoicemailsController < ApplicationController
     @random_vm = Voicemail.all.sample
 
     response = Twilio::TwiML::Response.new do |r|
-     r.Redirect("/voicemails/#{@random_vm.id}"), method: 'GET')
+     r.Redirect(("/voicemails/#{@random_vm.id}"), method: 'GET')
     end
    render_twiml response
   end
-
-  # def set_header
-  #   response.headers["Content-Type"] = "text/xml"
-  # end
 
   def render_twiml(response)
     render text: response.text
