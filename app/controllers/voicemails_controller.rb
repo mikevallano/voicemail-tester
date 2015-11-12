@@ -79,9 +79,9 @@ class VoicemailsController < ApplicationController
    render_twiml response
   end
 
-  def set_header
-    response.headers["Content-Type"] = "text/xml"
-  end
+  # def set_header
+  #   response.headers["Content-Type"] = "text/xml"
+  # end
 
   def render_twiml(response)
     render text: response.text
