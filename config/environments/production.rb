@@ -79,4 +79,5 @@ Rails.application.configure do
 
   # config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/voice'
   config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/voicemails'
+
 end
