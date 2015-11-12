@@ -34,7 +34,7 @@ class VoicemailsController < ApplicationController
   def new
     response = Twilio::TwiML::Response.new do |r|
       r.Say 'Leave a voice message after the beep. Press one when you are done recording.'
-      r.Record action: '/voicemail', method: 'POST', maxLength: '60'
+      r.Record action: '/voicemails', method: 'POST', maxLength: '60'
     end
     render_twiml response
   end
@@ -70,7 +70,7 @@ class VoicemailsController < ApplicationController
   def random
     @random_vm = Voicemail.random
     response = Twilio::TwiML::Response.new do |r|
-     r.Redirect(voicemail_path(@random_vm), method: 'GET')
+     r.Redirect(voicemails_path(@random_vm), method: 'GET')
     end
    render_twiml response
   end
