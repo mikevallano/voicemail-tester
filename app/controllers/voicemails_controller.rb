@@ -40,6 +40,7 @@ class VoicemailsController < ApplicationController
   end
 
   def create
+    puts "params: #{params}"
     if params['RecordingDuration'].to_i > 2
       @vm_saved = Voicemail.create(url: params['RecordingUrl'])
     end
