@@ -35,4 +35,16 @@ class TwilioController < ApplicationController
     render_twiml response
   end
 
+  def call_to_pronounce
+    @street = Street.find(params[:id])
+
+    response = Twilio::TwiML::Response.new do |r|
+      r.Say "You are a good pronouncer. Good luck.", :voice => 'alice'
+      r.Dial :callerId => ENV["twilio_phone_number"] do |d|
+        d.Number ENV["twilio_phone_number"]
+      end
+    end
+    render_twiml response
+  end
+
 end

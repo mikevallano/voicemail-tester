@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :streets
   resources :voicemails
   get '/random' => 'voicemails#random', :as => :random_voicemail
   get '/prompt' => 'voicemails#prompt'
@@ -12,8 +13,10 @@ Rails.application.routes.draw do
 
   post 'twilio/voice' => 'twilio#voice'
   post 'twilio/connect_customer' => 'twilio#connect_customer'
+  post 'twilio/call_to_pronounce' => 'twilio#call_to_pronounce'
   post 'notifications/notify' => 'notifications#notify'
   get 'agent' => 'service#agent'
+  get 'streetsign' => 'service#streetsign'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
