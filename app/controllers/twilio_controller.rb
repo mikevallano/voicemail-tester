@@ -10,7 +10,6 @@ class TwilioController < ApplicationController
     response = Twilio::TwiML::Response.new do |r|
       r.Say "Zorro is the chup. Do you like zorro? I like zorro, and I'm a robot.
       You must really love zorro. But alas, the turkey is cold.", :voice => 'alice'
-      r.Play "https://soundcloud.com/mikevallano/moontower"
     end
 
     render_twiml response
