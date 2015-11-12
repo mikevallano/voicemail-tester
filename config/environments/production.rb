@@ -80,6 +80,6 @@ Rails.application.configure do
   # config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/voice'
   # config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/voicemails'
   # config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/random'
-  config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/voice', '/voicemails', '/random'
+  config.middleware.use Rack::TwilioWebhookAuthentication, ENV["twilio_auth_token"], '/\/voicemails/'
   # use Rack::TwilioWebhookAuthentication, ENV['twilio_auth_token'], '/voice', '/voicemails', '/random'
 end
