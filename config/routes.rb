@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   post '/router' => 'voicemails#router'
   get '/reprompt' => 'voicemails#reprompt'
   post '/rerouter' => 'voicemails#rerouter'
+  get '/threeprompt' => 'voicemails#threeprompt'
+  post '/threerouter' => 'voicemails#threerouter'
 
   resources :customers
   root 'pages#home'

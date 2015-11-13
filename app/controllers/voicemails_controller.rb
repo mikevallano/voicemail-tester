@@ -18,8 +18,23 @@ class VoicemailsController < ApplicationController
   def reprompt
     response = Twilio::TwiML::Response.new do |r|
       @last_street_id = Voicemail.last.street.id
-      r.Gather action: "/rerouter?last_street_id=#{@last_street_id}", timeout: 5, numDigits: 1, finishOnKey: '' do
-        r.Say "Press 1 to listen to others pronounce this street, or press 2 to pronounce another street.", :voice => 'alice'
+      r.Gather action: "/rerouter?last_street_id=#{@last_street_id}", timeout: 5,
+        numDigits: 1, finishOnKey: '' do
+        r.Say "Press 1 to listen to others pronounce this street, or
+          press 2 to pronounce another street.", :voice => 'alice'
+        # r.Play asset_url('prompt.mp3')
+      end
+    end
+    render_twiml response
+  end
+
+  def threeprompt
+    response = Twilio::TwiML::Response.new do |r|
+      @last_street_id = parmams['last_street_id']
+      r.Gather action: "/threerouter?last_street_id=#{@last_street_id}", timeout: 5,
+        numDigits: 1, finishOnKey: '' do
+        r.Say "Press 1 to listen to another one,
+          press 2 to pronounce another street, or press 3 to end the call.", :voice => 'alice'
         # r.Play asset_url('prompt.mp3')
       end
     end
@@ -51,6 +66,22 @@ class VoicemailsController < ApplicationController
         r.Redirect('/reprompt', method: 'GET')
       else
         r.Redirect('/reprompt', method: 'GET')
+      end
+    end
+    render_twiml response
+  end
+
+  def threerouter
+    response = Twilio::TwiML::Response.new do |r|
+      if params['Digits'] == '1'
+        @last_street_id = params['last_street_id']
+        r.Redirect("/random?last_street_id=#{@last_street_id}", method: 'GET')
+      elsif params['Digits'] == '2'
+        r.Redirect('/prompt', method: 'GET')
+      elsif params['Digits'] == '3'
+        r.Hangup
+      else
+        r.Redirect('/threeprompt', method: 'GET')
       end
     end
     render_twiml response
@@ -93,8 +124,9 @@ class VoicemailsController < ApplicationController
     @last_street_id = @voicemail.street.id
     response = Twilio::TwiML::Response.new do |r|
       r.Play @voicemail.url
-      r.Say "That was a good one. Here's another.", :voice => 'alice'
-      r.Redirect(random_voicemail_path(:last_street_id => @last_street_id), method: 'GET')
+      r.Say "That was a good one.", :voice => 'alice'
+      r.Redirect("/threeprompt?last_street_id=#{@last_street_id}"), method: 'GET'
+      # r.Redirect(random_voicemail_path(:last_street_id => @last_street_id), method: 'GET')
     end
     render_twiml response
   end
