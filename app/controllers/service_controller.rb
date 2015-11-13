@@ -8,7 +8,7 @@ class ServiceController < ApplicationController
   end
 
   def streetsign
-    @street = Street.first
+    @streets = Street.all
     capability = Twilio::Util::Capability.new(ENV["twilio_account_sid"], ENV["twilio_auth_token"])
     capability.allow_client_outgoing(ENV["twilio_twiml_app_sid"])
     @token = capability.generate()
