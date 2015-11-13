@@ -90,10 +90,11 @@ class VoicemailsController < ApplicationController
 
   def show
     @voicemail = Voicemail.find(params[:id])
+    @last_street_id = @voicemail.street.id
     response = Twilio::TwiML::Response.new do |r|
       r.Play @voicemail.url
       r.Say "That was a good one. Here's another.", :voice => 'alice'
-      r.Redirect(random_voicemail_path, method: 'GET')
+      r.Redirect(random_voicemail_path(:last_street_id => @last_street_id), method: 'GET')
     end
     render_twiml response
   end
