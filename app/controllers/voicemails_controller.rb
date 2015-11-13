@@ -43,7 +43,7 @@ class VoicemailsController < ApplicationController
   def create
     puts "params zangler on create: #{params}"
     if params['RecordingDuration'].to_i > 2
-      @vm_saved = Voicemail.new(url: params['RecordingUrl'])
+      @vm_saved = Voicemail.create(url: params['RecordingUrl'])
       @vm_saved.street_id = @street_id
     end
     puts "params after assigner on create: #{params}"
