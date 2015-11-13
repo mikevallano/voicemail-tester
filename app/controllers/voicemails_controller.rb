@@ -79,7 +79,7 @@ class VoicemailsController < ApplicationController
     response = Twilio::TwiML::Response.new do |r|
       if @vm_saved.present?
         r.Say 'Message saved.'
-        r.Redirect('/prompt', method: 'GET')
+        r.Redirect('/reprompt', method: 'GET')
       else
         r.Say "I'm sorry. That message was too short."
         r.Redirect(new_voicemail_path, method: 'GET')
