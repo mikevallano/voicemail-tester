@@ -18,7 +18,7 @@ class VoicemailsController < ApplicationController
   def reprompt
     response = Twilio::TwiML::Response.new do |r|
       @last_street_id = Voicemail.last.street.id
-      r.Gather action: "/rerouter?last_street_id=#{@last_street.id}", timeout: 5, numDigits: 1, finishOnKey: '' do
+      r.Gather action: "/rerouter?last_street_id=#{@last_street_id}", timeout: 5, numDigits: 1, finishOnKey: '' do
         r.Say "Press 1 to listen to others pronounce this street, or press 2 to pronounce another street.", :voice => 'alice'
         # r.Play asset_url('prompt.mp3')
       end
