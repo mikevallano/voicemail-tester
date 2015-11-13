@@ -76,8 +76,8 @@ class VoicemailsController < ApplicationController
         r.Redirect("/random?last_street_id=#{@last_street_id}", method: 'GET')
       elsif params['Digits'] == '2'
         r.Redirect('/prompt', method: 'GET')
-      elsif params['Digits'] == '3'
-        r.Hangup
+      # elsif params['Digits'] == '3'
+      #   r.Hangup
       else
         r.Redirect('/threeprompt', method: 'GET')
       end
