@@ -8,7 +8,7 @@ class VoicemailsController < ApplicationController
     response = Twilio::TwiML::Response.new do |r|
       r.Gather action: '/router', timeout: 5, numDigits: 1, finishOnKey: '' do
         r.Say "Yall from Tchopatulas? Press 1 to leave a voicemail pronouncing this street.
-          press 2 to listed to others' pronunciations.", :voice => 'alice'
+          press 2 to listen to others' pronunciations.", :voice => 'alice'
         # r.Play asset_url('prompt.mp3')
       end
     end
@@ -59,7 +59,7 @@ class VoicemailsController < ApplicationController
     @voicemail = Voicemail.find(params[:id])
     response = Twilio::TwiML::Response.new do |r|
       r.Play @voicemail.url
-      r.Say 'End of message. Playing another message.'
+      r.Say "That was a good one. Here's another.", :voice => 'alice'
       r.Redirect(random_voicemail_path, method: 'GET')
     end
     render_twiml response
