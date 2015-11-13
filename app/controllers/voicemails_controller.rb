@@ -35,7 +35,7 @@ class VoicemailsController < ApplicationController
     puts "newparams: params, #{@street_id}"
     response = Twilio::TwiML::Response.new do |r|
       r.Say 'Leave a voice message after the beep. Press one when you are done recording.'
-      r.Record action: 'voicemails', method: 'POST', maxLength: '60'
+      r.Record action: '/voicemails', method: 'POST', maxLength: '60'
     end
     render_twiml response
   end
