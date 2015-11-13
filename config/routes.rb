@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get '/random' => 'voicemails#random', :as => :random_voicemail
   get '/prompt' => 'voicemails#prompt'
   post '/router' => 'voicemails#router'
+  get '/reprompt' => 'voicemails#reprompt'
+  post '/rerouter' => 'voicemails#rerouter'
 
   resources :customers
   root 'pages#home'
