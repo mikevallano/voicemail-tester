@@ -31,10 +31,8 @@ class VoicemailsController < ApplicationController
   def threeprompt
     @last_street_id = parmams['last_street_id']
     response = Twilio::TwiML::Response.new do |r|
-      r.Gather action: "/threerouter?last_street_id=#{@last_street_id}", timeout: 5,
-        numDigits: 1, finishOnKey: '' do
-        r.Say "Press 1 to listen to another one,
-          press 2 to pronounce another street, or press 3 to end the call.", :voice => 'alice'
+      r.Gather action: "/threerouter?last_street_id=#{@last_street_id}", timeout: 5, numDigits: 1, finishOnKey: '' do
+        r.Say "Press 1 to listen to another one, press 2 to pronounce another street, or press 3 to end the call.", :voice => 'alice'
         # r.Play asset_url('prompt.mp3')
       end
     end
@@ -125,8 +123,8 @@ class VoicemailsController < ApplicationController
     response = Twilio::TwiML::Response.new do |r|
       r.Play @voicemail.url
       r.Say "That was a good one.", :voice => 'alice'
-      r.Redirect('/threeprompt', method: 'GET')
-      # r.Redirect("/threeprompt?last_street_id=#{@last_street_id}", method: 'GET')
+      # r.Redirect('/threeprompt', method: 'GET')
+      r.Redirect("/threeprompt?last_street_id=#{@last_street_id}", method: 'GET')
       # r.Redirect(random_voicemail_path(:last_street_id => @last_street_id), method: 'GET')
     end
     render_twiml response
