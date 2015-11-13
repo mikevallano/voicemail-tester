@@ -104,16 +104,14 @@ class VoicemailsController < ApplicationController
     if params['last_street_id'].present?
       @street = Street.find(params['last_street_id'])
       @random_vm = Voicemail.by_street(@street).sample
-      response = Twilio::TwiML::Response.new do |r|
-       r.Redirect(("/voicemails/#{@random_vm.id}"), method: 'GET')
-      end
+    else
+      @random_vm = Voicemail.all.sample
     end
-
-    @random_vm = Voicemail.all.sample
 
     response = Twilio::TwiML::Response.new do |r|
      r.Redirect(("/voicemails/#{@random_vm.id}"), method: 'GET')
     end
+
    render_twiml response
   end
 
