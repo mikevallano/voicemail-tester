@@ -19,7 +19,8 @@ class VoicemailsController < ApplicationController
   def router
     response = Twilio::TwiML::Response.new do |r|
       if params['Digits'] == '1'
-      r.Redirect(new_voicemail_path, method: 'GET')
+        street_id = 1
+      r.Redirect(new_voicemail_path(:street_id => street_id), method: 'GET')
       elsif params['Digits'] == '2'
       r.Redirect(random_voicemail_path, method: 'GET')
       else
