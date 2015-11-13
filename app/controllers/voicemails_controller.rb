@@ -15,6 +15,17 @@ class VoicemailsController < ApplicationController
     render_twiml response
   end
 
+  def reprompt
+    response = Twilio::TwiML::Response.new do |r|
+      @last_street = Voicemail.last.street
+      r.Gather action: "/rerouter?last_street_id=#{@last_street.id}", timeout: 5, numDigits: 1, finishOnKey: '' do
+        r.Say "Press 1 to listen to others pronounce this street, or press 2 to pronounce another street.", :voice => 'alice'
+        # r.Play asset_url('prompt.mp3')
+      end
+    end
+    render_twiml response
+  end
+
 
   def router
     response = Twilio::TwiML::Response.new do |r|
@@ -26,6 +37,20 @@ class VoicemailsController < ApplicationController
         r.Redirect(random_voicemail_path, method: 'GET')
       else
         r.Redirect('/prompt', method: 'GET')
+      end
+    end
+    render_twiml response
+  end
+
+  def rerouter
+    response = Twilio::TwiML::Response.new do |r|
+      if params['Digits'] == '1'
+        @last_street_id = params['last_street_id']
+        r.Redirect("/random?last_street_id=#{@last_street_id}"), method: 'GET')
+      elsif params['Digits'] == '2'
+        r.Redirect('/reprompt', method: 'GET')
+      else
+        r.Redirect('/reprompt', method: 'GET')
       end
     end
     render_twiml response
@@ -75,6 +100,14 @@ class VoicemailsController < ApplicationController
 
 
   def random
+    if params['last_street_id'].present?
+      @street = Street.find(params['last_street_id'])
+      @random_vm = Voicemail.by_street(@street).sample
+      response = Twilio::TwiML::Response.new do |r|
+       r.Redirect(("/voicemails/#{@random_vm.id}"), method: 'GET')
+      end
+    end
+
     @random_vm = Voicemail.all.sample
 
     response = Twilio::TwiML::Response.new do |r|
