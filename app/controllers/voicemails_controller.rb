@@ -29,8 +29,8 @@ class VoicemailsController < ApplicationController
   end
 
   def threeprompt
+    @last_street_id = parmams['last_street_id']
     response = Twilio::TwiML::Response.new do |r|
-      @last_street_id = parmams['last_street_id']
       r.Gather action: "/threerouter?last_street_id=#{@last_street_id}", timeout: 5,
         numDigits: 1, finishOnKey: '' do
         r.Say "Press 1 to listen to another one,
