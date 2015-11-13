@@ -7,7 +7,7 @@ class VoicemailsController < ApplicationController
   def prompt
     response = Twilio::TwiML::Response.new do |r|
       r.Gather action: '/router', timeout: 5, numDigits: 1, finishOnKey: '' do
-        r.Say "Yall from Tchopatulas? Press the number of the sreet you want to pronounce.
+        r.Say "Yall from Tchopatulas? Enter the number of the sreet you want to pronounce.
           press 9 to listen to others' pronunciations.", :voice => 'alice'
         # r.Play asset_url('prompt.mp3')
       end
@@ -18,14 +18,14 @@ class VoicemailsController < ApplicationController
 
   def router
     response = Twilio::TwiML::Response.new do |r|
-      @nums = [1, 2, 3]
+      @nums = ['1', '2', '3']
       if @nums.include?(params['Digits'])
         @street_id = params['Digits']
         r.Redirect(new_voicemail_path(:street_id => @street_id), method: 'GET')
       elsif params['Digits'] == '9'
-      r.Redirect(random_voicemail_path, method: 'GET')
+        r.Redirect(random_voicemail_path, method: 'GET')
       else
-      r.Redirect('/prompt', method: 'GET')
+        r.Redirect('/prompt', method: 'GET')
       end
     end
     render_twiml response
