@@ -17,7 +17,7 @@ class VoicemailsController < ApplicationController
 
   def reprompt
     response = Twilio::TwiML::Response.new do |r|
-      @last_street = Voicemail.last.street
+      @last_street_id = Voicemail.last.street.id
       r.Gather action: "/rerouter?last_street_id=#{@last_street.id}", timeout: 5, numDigits: 1, finishOnKey: '' do
         r.Say "Press 1 to listen to others pronounce this street, or press 2 to pronounce another street.", :voice => 'alice'
         # r.Play asset_url('prompt.mp3')
@@ -46,7 +46,7 @@ class VoicemailsController < ApplicationController
     response = Twilio::TwiML::Response.new do |r|
       if params['Digits'] == '1'
         @last_street_id = params['last_street_id']
-        r.Redirect("/random?last_street_id=#{@last_street_id}"), method: 'GET')
+        r.Redirect("/random?last_street_id=#{@last_street_id}", method: 'GET')
       elsif params['Digits'] == '2'
         r.Redirect('/reprompt', method: 'GET')
       else
