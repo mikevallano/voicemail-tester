@@ -31,18 +31,22 @@ class VoicemailsController < ApplicationController
   end
 
   def new
+    @street_id = params['street_id']
+    puts "newparams: params, #{@street_id}"
     response = Twilio::TwiML::Response.new do |r|
       r.Say 'Leave a voice message after the beep. Press one when you are done recording.'
-      r.Record action: voicemails_path(:street_id => street_id), method: 'POST', maxLength: '60'
+      r.Record action: 'voicemails', method: 'POST', maxLength: '60'
     end
     render_twiml response
   end
 
   def create
-    puts "params zangler: #{params}"
+    puts "params zangler on create: #{params}"
     if params['RecordingDuration'].to_i > 2
-      @vm_saved = Voicemail.create(url: params['RecordingUrl'], street_id: params['street_id'])
+      @vm_saved = Voicemail.new(url: params['RecordingUrl'])
+      @vm_saved.street_id = @street_id
     end
+    puts "params after assigner on create: #{params}"
 
     response = Twilio::TwiML::Response.new do |r|
       if @vm_saved.present?
