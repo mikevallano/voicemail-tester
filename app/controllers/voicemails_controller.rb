@@ -39,7 +39,7 @@ class VoicemailsController < ApplicationController
   end
 
   def create
-    puts "params: #{params}"
+    puts "params zangler: #{params}"
     if params['RecordingDuration'].to_i > 2
       @vm_saved = Voicemail.create(url: params['RecordingUrl'], street_id: params['street_id'])
     end
@@ -78,6 +78,10 @@ class VoicemailsController < ApplicationController
 
   def render_twiml(response)
     render text: response.text
+  end
+
+  def post_params
+    params.require(:voicemail).permit(:street_id)
   end
 
 end
