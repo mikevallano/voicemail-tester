@@ -45,8 +45,8 @@ class VoicemailsController < ApplicationController
     puts "params tunga on create: #{params}"
     puts "create street_id zibbler: #{@street_id}"
     if params['RecordingDuration'].to_i > 2
-      @vm_saved = Voicemail.create(url: params['RecordingUrl'])
-      @vm_saved.street_id = @street_id
+      @vm_saved = Voicemail.create(url: params['RecordingUrl'], street_id: @street_id)
+      # @vm_saved.street_id = @street_id
     end
     puts "params after assigner on create: #{params}"
 
