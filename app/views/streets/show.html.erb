@@ -10,6 +10,10 @@
   <%= @street.image %>
 </p>
 
+ <h2>Listen to Pronunciations</h2>
+  <section id="audio">
+  </section>
+
 <table>
   <thead>
     <tr>
@@ -22,7 +26,7 @@
     <% if @street.voicemails.present? %>
       <% @street.voicemails.each do |voicemail| %>
         <tr>
-          <td><%= link_to "Listen", voicemail.url %></td>
+          <td><%= link_to "HTML5 Audio", "#{voicemail.url}.mp3", :class => "html5" %></td>
         </tr>
       <% end %>
     <% end %>
@@ -31,3 +35,33 @@
 
 <%= link_to 'Edit', edit_street_path(@street) %> |
 <%= link_to 'Back', streets_path %>
+
+
+<script type="text/javascript"
+  src="https://static.twilio.com/libs/twiliojs/1.2/twilio.min.js">
+</script>
+
+<script type="text/javascript"
+  src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+</script>
+
+
+
+<script>
+
+  $(document).ready(function() {
+      var audioSection = $('section#audio');
+      $('a.html5').click(function() {
+
+          var audio = $('<audio>', {
+               controls : 'controls'
+          });
+
+          var url = $(this).attr('href');
+          $('<source>').attr('src', url).appendTo(audio);
+          audioSection.html(audio);
+          return false;
+      });
+  });
+
+</script>
