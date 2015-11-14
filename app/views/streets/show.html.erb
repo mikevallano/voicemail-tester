@@ -11,8 +11,8 @@
 </p>
 
  <h2>Listen to Pronunciations</h2>
-  <section id="audio">
-  </section>
+  <!-- <section id="audio">
+  </section> -->
 
 <table>
   <thead>
@@ -26,7 +26,11 @@
     <% if @street.voicemails.present? %>
       <% @street.voicemails.each do |voicemail| %>
         <tr>
-          <td><%= link_to "HTML5 Audio", "#{voicemail.url}.mp3", :class => "html5" %></td>
+          <td><%= link_to "Hear it:", "#{voicemail.url}.mp3", :class => "html5" %></td>
+          <td>
+            <section id="audio">
+            </section>
+          </td>
         </tr>
       <% end %>
     <% end %>
