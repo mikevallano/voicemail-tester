@@ -29,6 +29,7 @@ class VoicemailsController < ApplicationController
   end
 
   def threeprompt
+    puts "threprompt params: #{params}"
     @last_street_id = parmams['last_street_id']
     response = Twilio::TwiML::Response.new do |r|
       r.Gather action: "/threerouter?last_street_id=#{@last_street_id}", timeout: 5, numDigits: 1, finishOnKey: '' do
